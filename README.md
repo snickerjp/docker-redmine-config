@@ -13,25 +13,25 @@
 
 * for create & start
 ```
-docker-compose -f docker-redmine/docker-compose.production.yml up
+docker-compose -f docker-redmine-config/docker-compose.production.yml up
 ```
 
 * for create & start [deattach mode]
 ```
-docker-compose -f docker-redmine/docker-compose.production.yml up -d
+docker-compose -f docker-redmine-config/docker-compose.production.yml up -d
 ```
 
 * for start
 ```
-docker-compose -f docker-redmine/docker-compose.production.yml start
+docker-compose -f docker-redmine-config/docker-compose.production.yml start
 ```
 
 * for stop
 ```
-docker-compose -f docker-redmine/docker-compose.production.yml stop
+docker-compose -f docker-redmine-config/docker-compose.production.yml stop
 ```
 
 * for delete Containers
 ```
-docker-compose -f docker-redmine/docker-compose.production.yml down
+docker-compose -f docker-redmine-config/docker-compose.production.yml down
 ```
