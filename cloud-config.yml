@@ -1,0 +1,22 @@
+#cloud-config
+
+coreos:
+  units:
+    - name: docker-redmine.service
+      command: start
+      content: |
+        [Unit]
+        Description=Redmine Service
+        Requires=docker.service
+        After=network.target docker.service
+        Documentation=https://github.com/sameersbn/docker-redmine
+
+        [Service]
+        #TimeoutStartSec=0
+        #Restart=always
+        #ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml start
+        ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml up
+        ExecStop=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml stop
+
+        [Install]
+        WantedBy=multi-user.target
