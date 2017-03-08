@@ -14,9 +14,9 @@ coreos:
         [Service]
         #TimeoutStartSec=0
         #Restart=always
-        #ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml start
-        ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml up
-        ExecStop=/opt/bin/docker-compose -f /home/core/docker-redmine/docker-compose.yml stop
+        #ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine-config/docker-compose.production.yml start
+        ExecStart=/opt/bin/docker-compose -f /home/core/docker-redmine-config/docker-compose.production.yml up
+        ExecStop=/opt/bin/docker-compose -f /home/core/docker-redmine-config/docker-compose.production.yml stop
 
         [Install]
         WantedBy=multi-user.target
