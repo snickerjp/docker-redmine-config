@@ -6,6 +6,7 @@ services:
     ports:
       - '25:25'
     environment:
+      # お好みで、設定を変更してください
       - maildomain=snicker-jp.info
       - smtp_user=noreply:[ YOUR_PASSWORD ]
   memcached:
@@ -16,55 +17,59 @@ services:
   mysql:
     image: 'sameersbn/mysql:latest'
     environment:
-    - DB_USER=bn_redmine
-    - DB_PASS=[ YOUR_PASSWORD ]
-    - DB_NAME=bitnami_redmine
+      # お好みで、設定を変更してください
+      - DB_USER=bn_redmine
+      - DB_PASS=[ YOUR_PASSWORD ]
+      - DB_NAME=bitnami_redmine
     volumes:
-    - /srv/docker/redmine/mysql:/var/lib/mysql
-
+      - /srv/docker/redmine/mysql:/var/lib/mysql
   redmine:
     image: 'sameersbn/redmine:latest'
     depends_on:
-    - mysql
-    - postfix
-    - memcached
+      - mysql
+      - postfix
+      - memcached
+    ports:
+      - "10083:80"
+      - "10443:443"
+    volumes:
+      - /srv/docker/redmine/redmine:/home/redmine/data
     environment:
-    - TZ=Asia/Tokyo
-
-    - DB_ADAPTER=mysql2
-    - DB_HOST=mysql
-    - DB_PORT=3306
-    - DB_USER=bn_redmine
-    - DB_PASS=[ YOUR_PASSWORD ]
-    - DB_NAME=bitnami_redmine
-
-    - REDMINE_PORT=10083
-    - REDMINE_HTTPS=false
-    - REDMINE_RELATIVE_URL_ROOT=/redmine
-    - REDMINE_SECRET_TOKEN=
-
-    - REDMINE_SUDO_MODE_ENABLED=false
-    - REDMINE_SUDO_MODE_TIMEOUT=15
-
-    - REDMINE_CONCURRENT_UPLOADS=2
-
-    - REDMINE_BACKUP_SCHEDULE=weekly
-    - REDMINE_BACKUP_EXPIRY=
-    - REDMINE_BACKUP_TIME=
-
-    - SMTP_ENABLED=true
-    - SMTP_METHOD=smtp
-    - SMTP_DOMAIN=snicker-jp.info
-    - SMTP_HOST=postfix
-    - SMTP_PORT=25
-    - SMTP_USER=noreply@snicker-jp.info
-    - SMTP_PASS=[ YOUR_PASSWORD ]
-    - SMTP_STARTTLS=false
-    - SMTP_AUTHENTICATION=:login
-
-    - MEMCACHE_HOST=memcached
-    - MEMCACHE_PORT=11211
-
+      - TZ=Asia/Tokyo
+      # DBの設定
+      - DB_ADAPTER=mysql2
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      # 元のbitnami_redmineの設定を使いました
+      - DB_USER=bn_redmine
+      - DB_PASS=[ YOUR_PASSWORD ]
+      - DB_NAME=bitnami_redmine
+      # redminehttp設定
+      - REDMINE_PORT=10083
+      - REDMINE_HTTPS=false
+      - REDMINE_CONCURRENT_UPLOADS=2
+      # URLプレフィックス設定
+      - REDMINE_RELATIVE_URL_ROOT=/redmine
+      - REDMINE_SECRET_TOKEN=
+      - REDMINE_SUDO_MODE_ENABLED=false
+      - REDMINE_SUDO_MODE_TIMEOUT=15
+      # バックアップ設定
+      - REDMINE_BACKUP_SCHEDULE=weekly
+      - REDMINE_BACKUP_EXPIRY=
+      - REDMINE_BACKUP_TIME=
+      # memcached の設定
+      - MEMCACHE_HOST=memcached
+      - MEMCACHE_PORT=11211
+      # 上の postfix で設定した値を入れます
+      - SMTP_ENABLED=true
+      - SMTP_METHOD=smtp
+      - SMTP_DOMAIN=snicker-jp.info
+      - SMTP_HOST=postfix
+      - SMTP_PORT=25
+      - SMTP_USER=noreply@snicker-jp.info
+      - SMTP_PASS=[ YOUR_PASSWORD ]
+      - SMTP_STARTTLS=false
+      - SMTP_AUTHENTICATION=:login
 #    - IMAP_ENABLED=false
 #    - IMAP_HOST=imap.gmail.com
 #    - IMAP_PORT=993
@@ -72,12 +77,6 @@ services:
 #    - IMAP_PASS=password
 #    - IMAP_SSL=true
 #    - IMAP_INTERVAL=30
-
-    ports:
-    - "10083:80"
-    - "10443:443"
-    volumes:
-    - /srv/docker/redmine/redmine:/home/redmine/data
   lb:
     image: 'bitnami/nginx'
     depends_on:
