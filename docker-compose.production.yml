@@ -44,7 +44,7 @@ services:
       - DB_USER=bn_redmine
       - DB_PASS=[ YOUR_PASSWORD ]
       - DB_NAME=bitnami_redmine
-      # redminehttp設定
+      # redmine http設定
       - REDMINE_PORT=10083
       - REDMINE_HTTPS=false
       - REDMINE_CONCURRENT_UPLOADS=2
@@ -86,5 +86,3 @@ services:
     ports:
       - 80:80
       - 443:443
-#    links:
-#      - redmine
